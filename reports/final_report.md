@@ -50,17 +50,17 @@ The primary selection metric is minimum simulated ticks. IPC is used as a second
 
 | Workload | Configurations | Fastest L1D | Fastest IPC | Fastest simulated ticks | Slowest L1D | Tick improvement |
 |---|---:|---|---:|---:|---|---:|
-| branch_intensive_1M | 12 | 16KiB, 4-way | 0.307575 | 1635542653500 | 128KiB, 8-way | 0.016% |
+| branch_intensive_1M | 12 | 32KiB, 8-way | 0.307580 | 1635519570000 | 128KiB, 8-way | 0.017% |
 | matrix_mul_256 | 12 | 16KiB, 8-way | 0.122478 | 249770861500 | 16KiB, 4-way | 0.015% |
-| memory_intensive_32MiB | 12 | 64KiB, 16-way | 0.127266 | 486527883000 | 128KiB, 4-way | 2.098% |
+| memory_intensive_32MiB | 12 | 64KiB, 4-way | 0.127299 | 486402771000 | 128KiB, 16-way | 2.131% |
 
 ### 3.1 Workload-level interpretation
 
-**Branch-intensive workload.** The fastest tested configuration is 16 KiB, 4-way. The fastest-to-slowest simulated-tick difference is approximately 0.016%, indicating very little measured sensitivity to the tested L1D settings for this workload.
+**Branch-intensive workload.** The fastest tested configuration is 32KiB, 8-way. The fastest-to-slowest simulated-tick difference is approximately 0.017%.
 
-**Matrix multiplication.** The fastest tested configuration is 16 KiB, 8-way. The fastest-to-slowest difference is approximately 0.015%, also a very small measured difference.
+**Matrix multiplication.** The fastest tested configuration is 16KiB, 8-way. The fastest-to-slowest simulated-tick difference is approximately 0.015%.
 
-**Memory-intensive workload.** The fastest tested configuration is 64 KiB, 16-way. The fastest-to-slowest difference is approximately 2.10%, the largest of the three workloads.
+**Memory-intensive workload.** The fastest tested configuration is 64KiB, 4-way. The fastest-to-slowest simulated-tick difference is approximately 2.131%.
 
 These rankings identify the minimum observed simulated ticks in the existing dataset. Small differences should not be interpreted as statistically significant without additional validation.
 
@@ -74,9 +74,9 @@ The following recommendations refer only to the tested configuration grid. They 
 
 | Workload | Recommended L1D | Baseline L1D | Tick change vs baseline | IPC change vs baseline |
 |---|---|---|---:|---:|
-| branch_intensive_1M | 16KiB, 4-way | 32KiB, 8-way | -0.002% | +0.002% |
+| branch_intensive_1M | 32KiB, 8-way | 32KiB, 8-way | +0.000% | +0.000% |
 | matrix_mul_256 | 16KiB, 8-way | 32KiB, 8-way | -0.011% | +0.010% |
-| memory_intensive_32MiB | 64KiB, 16-way | 32KiB, 8-way | -0.582% | +0.586% |
+| memory_intensive_32MiB | 64KiB, 4-way | 32KiB, 8-way | -0.607% | +0.612% |
 
 A negative tick change means the recommended configuration uses fewer simulated ticks than the baseline; a positive IPC change means higher IPC than the baseline. These changes are relative to the 32 KiB, 8-way baseline, and are not the same as the fastest-to-slowest improvements reported above.
 

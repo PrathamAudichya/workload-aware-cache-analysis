@@ -1,12 +1,14 @@
 import pandas as pd
 from pathlib import Path
 
+from validate_dataset import validate_dataset
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data/combined_cache_dataset.csv"
 SUMMARY_FILE = ROOT / "data/best_worst_configurations.csv"
 REPORT_FILE = ROOT / "reports/cache_analysis_report.md"
 
-df = pd.read_csv(DATA_FILE)
+df = validate_dataset(DATA_FILE)
 
 required = {
     "workload", "l1d_size", "l1d_assoc",

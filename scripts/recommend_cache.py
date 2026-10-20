@@ -1,6 +1,8 @@
 import pandas as pd
 from pathlib import Path
 
+from validate_dataset import validate_dataset
+
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "data/combined_cache_dataset.csv"
 OUTPUT = ROOT / "results/processed/cache_recommendations.csv"
@@ -10,10 +12,7 @@ BASELINE_ASSOC = 8
 
 
 def main():
-    if not DATASET.is_file():
-        raise FileNotFoundError(f"Dataset not found: {DATASET}")
-
-    df = pd.read_csv(DATASET)
+    df = validate_dataset(DATASET)
 
     required = {
         "workload",
