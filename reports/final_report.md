@@ -95,6 +95,41 @@ A negative tick change means the recommended configuration uses fewer simulated 
 
 The experiments demonstrate that the observed effect of L1D size and associativity depends on workload characteristics. The memory-intensive workload exhibits a larger performance spread than the branch-intensive and matrix-multiplication workloads. The results also demonstrate why cache-miss counts alone are insufficient for ranking configurations. The selected configurations should be treated as workload-specific recommendations for this gem5 setup, subject to validation through repeat runs and broader workload coverage.
 
-## 7. Reproducibility
+## 7. Workload Features and Classification
 
-The repository contains the simulation configuration, workload source files, sweep scripts, CSV datasets, analysis scripts, and generated plots. See `README.md` for environment setup and execution instructions.
+The feature-extraction pipeline processes gem5 statistics from all 36
+tested configurations and derives workload-level characteristics.
+
+The extracted metrics include:
+
+- Instructions, CPU cycles, and IPC.
+- Branch count and branch frequency.
+- Load and store instruction counts.
+- L1D demand accesses, demand misses, and miss rate.
+- L1D misses per thousand instructions (MPKI).
+- Memory-instruction fraction and memory-access intensity.
+
+The workload summary uses the median across the 12 cache configurations
+for each workload. These observations represent the same program under
+different cache configurations, not independent workloads.
+
+Workload categories are defined by the benchmark design:
+matrix multiplication is labelled compute-intensive, the memory
+benchmark memory-intensive, and the branch benchmark branch-intensive.
+These are benchmark-defined labels, not predictions from a trained
+machine-learning classifier.
+
+Branch frequency is measured, but branch misprediction rate is not
+available in the inspected statistics. The measured features should
+therefore be interpreted as workload characteristics rather than
+proof of a particular microarchitectural bottleneck.
+
+## 8. Reproducibility
+
+From the repository root, run the following commands in order:
+
+```bash
+python scripts/extract_workload_features.py
+python scripts/classify_workloads.py
+python scripts/analyze_cache_results.py
+python scripts/recommend_cache.py
