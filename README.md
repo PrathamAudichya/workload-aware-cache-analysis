@@ -214,3 +214,45 @@ workload-cache-project/
 │       └── cache_recommendations.csv
 ├── .gitignore
 └── README.md
+
+## Reproducibility and Setup
+
+### Requirements
+
+- Python 3.10 or newer
+- pip
+- GCC or another compatible C compiler to rebuild the workloads
+- An X86 build of gem5 to rerun simulations
+- Python dependencies listed in `requirements.txt`
+
+The analysis and plotting scripts can process the existing datasets without rerunning gem5.
+
+### Python Environment
+
+Create and activate a virtual environment from the repository root:
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python -m pip install -r requirements.txt
+
+### Reproduce Analysis and Visualizations
+
+With the virtual environment activated, run:
+
+    python scripts/combine_datasets.py
+    python scripts/analyze_cache_results.py
+    python scripts/recommend_cache.py
+    python scripts/plot_results.py
+    python scripts/plot_branch_results.py
+
+These scripts combine the workload datasets, generate configuration rankings and recommendations, update the analysis report, and produce visualizations. Review generated changes before committing them.
+
+### Rerun Simulations
+
+The following scripts execute gem5 simulations and can take considerably longer than the analysis scripts:
+
+    python scripts/run_cache_sweep.py
+    python scripts/run_memory_sweep.py
+    python scripts/run_branch_sweep.py
+
+Before running them, ensure that the gem5 X86 binary and compiled workload executables are available. The sweep scripts validate simulation results before replacing the official workload CSV files.

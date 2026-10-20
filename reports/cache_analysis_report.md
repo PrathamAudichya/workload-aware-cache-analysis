@@ -13,9 +13,9 @@
 
 | Workload | Fastest configuration | IPC | Slowest configuration | Tick improvement |
 |---|---|---:|---|---:|
-| branch_intensive_1M | 16KiB, 4-way | 0.307575 | 128KiB, 8-way | 0.016% |
+| branch_intensive_1M | 32KiB, 8-way | 0.307580 | 128KiB, 8-way | 0.017% |
 | matrix_mul_256 | 16KiB, 8-way | 0.122478 | 16KiB, 4-way | 0.015% |
-| memory_intensive_32MiB | 64KiB, 16-way | 0.127266 | 128KiB, 4-way | 2.098% |
+| memory_intensive_32MiB | 64KiB, 4-way | 0.127299 | 128KiB, 16-way | 2.131% |
 
 ## Interpretation
 
