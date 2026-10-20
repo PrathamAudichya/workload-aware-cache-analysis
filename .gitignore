@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated gem5 simulation outputs
+results/raw/
+m5out/
+stats.txt
+config.ini
+config.json
+
+# Preserve source datasets, reports, and plots
+# Do not ignore data/, plots/, or reports/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated simulation artifacts
+results/raw/
+m5out/
+*.log
+
+# Compiled workload executables
+workloads/*_x86
+
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,4 @@
+workload,selection_metric,recommended_l1d_size,recommended_l1d_assoc,recommended_sim_ticks,recommended_ipc,recommended_l1d_misses,recommended_l1d_miss_rate,baseline_l1d_size,baseline_l1d_assoc,baseline_sim_ticks,sim_ticks_change_percent,ipc_change_percent
+branch_intensive_1M,minimum_simTicks,16KiB,4,1635542653500,0.307575,6314367,0.062494,32KiB,8,1635569873500,-0.0016642517351919176,0.0016256461943548607
+matrix_mul_256,minimum_simTicks,16KiB,8,249770861500,0.122478,2148072,0.042259,32KiB,8,249797108500,-0.010507327389660316,0.009798637989317951
+memory_intensive_32MiB,minimum_simTicks,64KiB,16,486527883000,0.127266,5244326,0.069427,32KiB,8,489374723000,-0.5817300866191244,0.5856550088915168
