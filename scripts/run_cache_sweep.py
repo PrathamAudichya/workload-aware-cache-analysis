@@ -1,5 +1,7 @@
 import csv
 import itertools
+import math
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -100,6 +102,27 @@ def main():
 
         stats = read_stats(stats_path)
 
+        required_stats = [
+            "simTicks",
+            "simInsts",
+            "system.cpu.numCycles",
+            "system.cpu.ipc",
+            "system.l1i.demandMisses::total",
+            "system.l1d.demandMisses::total",
+            "system.l1i.overallMissRate::total",
+            "system.l1d.overallMissRate::total",
+        ]
+
+        missing = [
+            key for key in required_stats
+            if key not in stats or not math.isfinite(stats[key])
+        ]
+
+        if missing:
+            failures.append(label)
+            print(f"FAILED: missing or invalid statistics: {missing}")
+            continue
+
         row = {
             "workload": "matrix_mul_256",
             "l1i_size": "32KiB",
@@ -148,10 +171,29 @@ def main():
         "l1d_miss_rate",
     ]
 
-    with CSV_PATH.open("w", newline="") as file:
+    validation_csv = ROOT / "results" / "raw" / "matrix_sweep_validation.csv"
+
+    if failures or len(rows) != len(experiments):
+        print("\\nDataset NOT updated: the sweep was incomplete.")
+        print(f"Existing dataset preserved: {CSV_PATH}")
+        sys.exit(1)
+
+    validation_csv.parent.mkdir(parents=True, exist_ok=True)
+    with validation_csv.open("w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=columns)
         writer.writeheader()
         writer.writerows(rows)
+
+    temporary_csv = CSV_PATH.with_suffix(".csv.tmp")
+    with temporary_csv.open("w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+        file.flush()
+        os.fsync(file.fileno())
+
+    temporary_csv.replace(CSV_PATH)
+    print(f"Validation copy: {validation_csv}")
 
     print("\n" + "=" * 60)
     print("CACHE SWEEP FINISHED")

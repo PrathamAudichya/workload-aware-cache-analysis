@@ -97,34 +97,56 @@ configured simulated system, not direct measurements of physical hardware.
 
 ## Key Findings
 
-The existing result datasets identify different best-performing configurations
-for the three workloads.
+The validated datasets identify the highest-IPC configuration for each workload
+among the 12 tested L1D configurations.
 
-| Workload | Best Recorded L1D Configuration | IPC | Simulation Ticks |
+| Workload | Highest-IPC L1D Configuration | IPC | Simulation Ticks |
 |---|---|---:|---:|
-| Matrix multiplication | 16 KiB, 8-way | 0.122478 | 2.497709e11 |
-| Memory-intensive | 64 KiB, 16-way | 0.127266 | 4.865279e11 |
-| Branch-intensive | 16 KiB, 4-way | 0.307575 | 1.635543e12 |
+| Matrix multiplication | 16 KiB, 8-way | 0.122478 | 249770861500 |
+| Memory-intensive | 64 KiB, 4-way | 0.127299 | 486402771000 |
+| Branch-intensive | 32 KiB, 8-way | 0.307580 | 1635519570000 |
 
-These are the best configurations in the current recorded sweep according to
-the analysis results; they are not universal cache-design recommendations.
+These configurations maximize IPC in their respective validated datasets.
+They are not necessarily the configurations with the fewest simulation ticks,
+the lowest miss rate, or the best physical hardware trade-off.
 
 ### Interpretation
 
-- The matrix multiplication workload favors a small cache with 8-way
-  associativity among the tested configurations.
-- The memory-intensive workload favors a larger, highly associative cache
-  among the tested configurations.
-- The branch-intensive workload shows comparatively small differences in
-  simulation ticks across the tested configurations.
-- Increasing cache capacity or associativity does not necessarily improve
-  performance for every workload.
+- The matrix multiplication workload achieves its highest recorded IPC with a
+  16 KiB, 8-way L1D cache among the tested configurations.
+- The memory-intensive workload achieves its highest recorded IPC with a
+  64 KiB, 4-way L1D cache.
+- The branch-intensive workload achieves its highest recorded IPC with a
+  32 KiB, 8-way L1D cache.
+- Increasing cache capacity or associativity does not necessarily improve IPC
+  for every workload.
 
 The results illustrate why cache configurations should be evaluated against
-representative workloads rather than selected using capacity alone.
+representative workloads rather than selected using capacity or associativity
+alone.
 
-**Important:** These results are based on the current recorded datasets.
-Repeated-run variability and statistical significance have not been established.
+### Validation and Limitations
+
+Each workload was evaluated across 12 L1D configurations, for 36 configurations
+in total. The official per-workload CSV files were checked against their
+validated datasets, and the combined dataset was rebuilt from those validated
+measurements.
+
+Three repeated simulations produced identical statistics for the memory-
+intensive workload at 64 KiB, 4-way and the branch-intensive workload at
+32 KiB, 8-way. These checks establish repeatability for those two configurations
+only; all 36 configurations were not independently repeated three times.
+
+The original and freshly validated memory and branch datasets had small
+differences in timing statistics and L1D miss counts. The validated datasets
+are used for the results reported above; the original CSV backups are retained
+for traceability.
+
+Simulation ticks are gem5 simulated time, not wall-clock execution time.
+Results depend on the modeled system, including the CPU model, cache settings,
+and memory configuration. The experiment uses `X86TimingSimpleCPU` and does
+not establish physical-hardware performance, power consumption, chip area, or
+statistical significance.
 
 ## Visualizations
 
