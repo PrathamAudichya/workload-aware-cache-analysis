@@ -32,3 +32,26 @@ workloads/*_x86
 .venv/
 __pycache__/
 *.py[cod]
+
+# Generated cache-capacity experiment outputs
+/results/o3_baseline/
+/results/o3_sweep/
+/results/holdout_sweep/
+
+# Compiled workload binaries
+/workloads/bin/
+
+# Temporary backup files
+*.backup
+
+# Generated cache-capacity experiment outputs
+/results/o3_baseline/
+/results/o3_sweep/
+/results/holdout_sweep/
+
+# Compiled workload binaries
+/workloads/bin/
+/workloads/holdout/*_x86
+
+# Temporary backup files
+*.backup

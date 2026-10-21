@@ -422,3 +422,31 @@ The workload-analysis pipeline produces the following files:
 The recommendation pipeline selects the configuration with minimum observed simulated ticks. The baseline is a 32 KiB, 8-way L1D cache.
 
 Simulated ticks are simulation metrics, not measured wall-clock execution time. The results have not established statistical significance for small performance differences. The experiments do not measure power consumption or physical cache area.
+
+## Additional Experiment: Cache-Capacity Analysis and Held-Out Validation
+
+This experiment evaluates workload classification and cache-configuration recommendations using gem5.
+
+### Held-Out Results
+
+| Metric | Result |
+|---|---:|
+| Classification accuracy | 4/4 (100%) |
+| Recommendations passing the 95% baseline threshold | 3/4 (75%) |
+| Main failure case | hashchain |
+
+The hashchain recommendation achieved approximately 0.5744x baseline performance. This demonstrates that correct workload classification does not guarantee a successful cache recommendation.
+
+See [the held-out experiment report](reports/holdout_cache_capacity_report.md) for methodology, results, limitations, and future work.
+
+### Visualizations
+
+![IPC by workload class](plots/holdout_ipc_by_class.png)
+
+![L2 MPKI versus branch MPKI](plots/holdout_classification_space.png)
+
+![Speedup versus cache capacity](plots/holdout_speedup_vs_capacity.png)
+
+### Regenerate Visualizations
+
+Activate the virtual environment and run `python scripts/plot_holdout_results.py`. This regenerates the figures from existing CSV files without rerunning gem5 simulations.
