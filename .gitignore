@@ -55,3 +55,4 @@ __pycache__/
 
 # Temporary backup files
 *.backup
+/results/controlled_hashchain/
