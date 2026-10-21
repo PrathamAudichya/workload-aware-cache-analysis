@@ -1,0 +1,4 @@
+class,best_config,best_speedup,recommended_config,rec_total_kib,rec_speedup,capacity_saved_vs_best_kib
+branch,l1d48k12_l2k1280k10,1.0,l1d48k12_l2k1280k10,1328,1.0,0
+compute,l1d32k8_l2k512k8,1.0004919879193033,l1d32k8_l2k256k4,288,0.993576049074192,256
+memory,l1d48k12_l2k1280k10,1.0,l1d16k4_l2k1280k10,1296,0.999947248968803,32

@@ -1,0 +1,13 @@
+workload,intended_class
+nbody,compute
+chacha,compute
+fft,compute
+matmul_tiled,compute
+stream,memory
+pchase,memory
+spmv,memory
+stride,memory
+qsort,branch
+bst,branch
+fsm,branch
+ifchain,branch

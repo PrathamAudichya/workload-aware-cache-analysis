@@ -1,0 +1,4 @@
+class,safe_config,total_kib,worst_speedup,limiting_workload
+branch,l1d48k12_l2k1280k10,1328,1.0,bst
+compute,l1d32k8_l2k256k4,288,0.9745581053430895,matmul_tiled
+memory,l1d16k4_l2k1280k10,1296,0.9992869492613807,pchase
