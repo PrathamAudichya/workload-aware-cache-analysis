@@ -40,6 +40,20 @@ Its estimated data footprint is approximately 640 KB, exceeding the selected con
 
 The evaluated oracle configuration used a 1280 KiB L2 cache. This is a retrospective sweep result, not the classifier's recommendation.
 
+### Controlled L2-capacity experiment
+
+To investigate the hashchain failure, a follow-up experiment varied L2 capacity while holding the O3 CPU, tournament branch predictor, 48 KiB 12-way L1D, 16 L1D MSHRs, and 8-way L2 associativity constant. The 1280 KiB, 8-way configuration was invalid in gem5 because it produced a non-power-of-two number of cache sets; 1024 KiB was used as the largest valid tested capacity instead.
+
+| L2 capacity | L2 associativity | Simulation ticks | IPC | L2 demand miss rate |
+|---:|---:|---:|---:|---:|
+| 256 KiB | 8-way | 30,168,102,500 | 0.224659 | 61.49% |
+| 512 KiB | 8-way | 18,122,446,500 | 0.373986 | 19.62% |
+| 1024 KiB | 8-way | 10,410,146,000 | 0.651052 | 0.93% |
+
+Increasing L2 capacity from 256 KiB to 1024 KiB reduced simulation ticks by approximately 65.5% and lowered the L2 demand miss rate from 61.49% to 0.93%. These results provide controlled evidence that L2 capacity materially affects hashchain performance under this simulated configuration.
+
+This follow-up experiment does not change the original held-out evaluation or its recommendation pass rate. It investigates the failure mechanism; it does not establish that the current classifier can predict the required capacity. Further evaluation should test whether additional features or a capacity-selection method can generalize to unseen workloads.
+
 ## 3. Visualizations
 
 - `plots/holdout_ipc_by_class.png`: baseline IPC by intended workload class.
@@ -58,7 +72,7 @@ With only four held-out workloads, these figures are descriptive and do not esta
 
 ## 5. Future Work
 
-Evaluate each workload at multiple L2 capacities, such as 256 KiB and 512 KiB, and investigate changes in L2 MPKI as a feature. Test the resulting method on additional held-out workloads.
+Extend the controlled L2-capacity sweep to the remaining workloads, investigate L2 MPKI and other capacity-sensitive features, and develop a capacity-selection method. Evaluate the revised method on additional held-out workloads without tuning on the test set.
 
 ## 6. Reproducibility
 
