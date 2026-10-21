@@ -1,0 +1,5 @@
+workload,intended,predicted,class_correct,l2_mpki,branch_mpki,chosen_config,chosen_kib,speedup_vs_base,capacity_saved_kib,passes,oracle_config,oracle_kib
+bsearch,branch,branch,True,0.04,53.01,l1d48k12_l2k512k8,560,1.0,768,True,l1d16k4_l2k256k4,272
+gather,memory,memory,True,21.16,0.02,l1d16k4_l2k1280k10,1296,0.9977,32,True,l1d16k4_l2k1280k10,1296
+hashchain,branch,branch,True,0.88,29.42,l1d48k12_l2k512k8,560,0.5744,768,False,l1d16k4_l2k1280k10,1296
+mandel,compute,compute,True,0.3,0.48,l1d32k8_l2k256k4,288,0.9999,1040,True,l1d16k4_l2k256k4,272
