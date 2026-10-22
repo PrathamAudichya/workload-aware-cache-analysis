@@ -499,3 +499,4 @@ python scripts/plot_training_sweep.py && python scripts/plot_holdout_results.py
 ```
 
 gem5 raw `stats.txt` files are large and not tracked. The committed CSVs in `data/` (`o3_features.csv`, `sweep_results.csv`, `holdout_sweep_results.csv`) hold every extracted value, so classification, recommendation tables, and figures can be regenerated without rerunning gem5. Rerunning the simulations needs gem5 v25.1.0.1 built for X86 at `~/projects/gem5/build/X86/gem5.opt`.
+Raw gem5 stats for the Phase 2 runs are archived in `data/raw_stats_o3.tar.gz` (extract with `tar xzf data/raw_stats_o3.tar.gz`).
