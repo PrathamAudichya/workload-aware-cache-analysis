@@ -80,6 +80,8 @@ Activate the project virtual environment:
 
 ```bash
 source .venv/bin/activate
+python scripts/validate_holdout.py
+python scripts/plot_holdout_results.py
 ```
 
 The full pipeline is in `reports/workload_aware_recommendation_report.md`, section 8.
