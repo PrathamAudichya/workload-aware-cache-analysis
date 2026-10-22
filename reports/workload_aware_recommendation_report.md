@@ -63,6 +63,10 @@ Recommendation rule: the smallest total capacity at which every workload in the 
 | branch | 48 KiB 12-way L1D + 512 KiB 8-way L2 | 560 KiB | 768 KiB (58%) | qsort (0.972) |
 | memory | 16 KiB 4-way L1D + 1280 KiB 10-way L2 | 1296 KiB | 32 KiB (2%) | pchase (0.999) |
 
+![Training sweep](../plots/training_speedup_vs_capacity.png)
+
+Points at each capacity are the three L1D sizes tried with that L2 size, so each curve steps through the L2 sizes (256, 512, 1280 KiB).
+
 Observations:
 - Memory kernels depend on L2 capacity, not L1D size: worst-case speedup is about 0.47 at 256 KiB L2, 0.57 at 512 KiB, and 0.999 at 1280 KiB. The grid has no size between 512 and 1280 KiB, so the true minimum capacity for the memory class may be smaller.
 - Compute kernels are nearly insensitive to the caches, except fft, which needs more than a 16 KiB L1D.

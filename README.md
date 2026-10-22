@@ -11,7 +11,9 @@ A rule on measured features (L2 MPKI, branch MPKI) classifies a workload as comp
 | branch | 48 KiB 12-way + 512 KiB 8-way | 560 KiB (-58%) | qsort, 0.972 |
 | memory | 16 KiB 4-way + 1280 KiB 10-way | 1296 KiB (-2%) | pchase, 0.999 |
 
-Held-out validation: 4/4 classified correctly, 3/4 recommended configurations kept at least 95% of baseline performance. The failure (hashchain, 0.574x) shows that class alone does not determine cache need. Full method, results, and limitations: [reports/workload_aware_recommendation_report.md](reports/workload_aware_recommendation_report.md). The earlier L1D-only study (3 workloads, TimingSimpleCPU, no L2) is described below as Phase 1.
+Held-out validation: 4/4 classified correctly, 3/4 recommended configurations kept at least 95% of baseline performance. The failure (hashchain, 0.574x) shows that class alone does not determine cache need. ![Training sweep](plots/training_speedup_vs_capacity.png)
+
+Full method, results, and limitations: [reports/workload_aware_recommendation_report.md](reports/workload_aware_recommendation_report.md). The earlier L1D-only study (3 workloads, TimingSimpleCPU, no L2) is described below as Phase 1.
 
 
 ## Overview (Phase 1: L1D-only study)
@@ -464,3 +466,36 @@ See [the held-out experiment report](reports/holdout_cache_capacity_report.md) f
 ### Regenerate Visualizations
 
 Activate the virtual environment and run `python scripts/plot_holdout_results.py`. This regenerates the figures from existing CSV files without rerunning gem5 simulations.
+
+
+## Phase 2 Layout and Reproduction (workload-aware recommendation)
+
+```text
+configs/x86_cache_v2.py          O3/Timing CPU, optional L2, block size, branch predictor
+workloads/kernels.c              12 training kernels (-DK_<NAME>)
+workloads/kernels_holdout.c      4 held-out kernels (-DH_<NAME>)
+scripts/build_workloads.sh, build_holdout.sh
+scripts/run_baseline.sh          12 workloads on the baseline config
+scripts/extract_features_v2.py   features -> data/o3_features.csv
+scripts/classify_v2.py           rule + decision tree -> data/o3_classification.csv
+scripts/run_sweep.sh             8 more configs x 12 workloads (baseline reused)
+scripts/analyze_sweep.py         per-class speedups and recommendations
+scripts/run_holdout_sweep.sh     4 held-out kernels x 9 configs
+scripts/validate_holdout.py      held-out validation -> data/holdout_validation.csv
+scripts/run_controlled_hashchain.sh   hashchain L2-capacity experiment
+scripts/plot_training_sweep.py, plot_holdout_results.py   figures
+```
+
+Phase 1 files (`classify_workloads.py`, `recommend_cache.py`, `data/workload_classification.csv`, `results/processed/`) belong to the earlier L1D-only study; Phase 2 uses the `_v2` and `o3_*` files.
+
+```bash
+source .venv/bin/activate
+./scripts/build_workloads.sh && ./scripts/build_holdout.sh
+./scripts/run_baseline.sh && python scripts/extract_features_v2.py
+python scripts/classify_v2.py
+./scripts/run_sweep.sh && python scripts/analyze_sweep.py
+./scripts/run_holdout_sweep.sh && python scripts/validate_holdout.py
+python scripts/plot_training_sweep.py && python scripts/plot_holdout_results.py
+```
+
+gem5 raw `stats.txt` files are large and not tracked. The committed CSVs in `data/` (`o3_features.csv`, `sweep_results.csv`, `holdout_sweep_results.csv`) hold every extracted value, so classification, recommendation tables, and figures can be regenerated without rerunning gem5. Rerunning the simulations needs gem5 v25.1.0.1 built for X86 at `~/projects/gem5/build/X86/gem5.opt`.
