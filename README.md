@@ -1,5 +1,19 @@
 # Workload-Aware L1 Data Cache Performance Analysis Using gem5
 
+<!-- main-result -->
+## Main Result: Workload-Aware Cache Configuration (Q3)
+
+A rule on measured features (L2 MPKI, branch MPKI) classifies a workload as compute-, memory-, or branch-intensive, and each class maps to a cache configuration selected from a 9-configuration gem5 sweep.
+
+| Class | Recommended L1D + L2 | Capacity vs baseline (1328 KiB) | Worst workload in class |
+|---|---|---:|---|
+| compute | 32 KiB 8-way + 256 KiB 4-way | 288 KiB (-78%) | matmul_tiled, 0.975 |
+| branch | 48 KiB 12-way + 512 KiB 8-way | 560 KiB (-58%) | qsort, 0.972 |
+| memory | 16 KiB 4-way + 1280 KiB 10-way | 1296 KiB (-2%) | pchase, 0.999 |
+
+Held-out validation: 4/4 classified correctly, 3/4 recommended configurations kept at least 95% of baseline performance. The failure (hashchain, 0.574x) shows that class alone does not determine cache need. Full method, results, and limitations: [reports/workload_aware_recommendation_report.md](reports/workload_aware_recommendation_report.md). The earlier L1D-only study (3 workloads, TimingSimpleCPU, no L2) is described below as Phase 1.
+
+
 ## Overview
 
 This project evaluates the effect of L1 data cache (L1D) size and associativity on simulated execution performance across three workloads using gem5.
