@@ -14,7 +14,7 @@ A rule on measured features (L2 MPKI, branch MPKI) classifies a workload as comp
 Held-out validation: 4/4 classified correctly, 3/4 recommended configurations kept at least 95% of baseline performance. The failure (hashchain, 0.574x) shows that class alone does not determine cache need. Full method, results, and limitations: [reports/workload_aware_recommendation_report.md](reports/workload_aware_recommendation_report.md). The earlier L1D-only study (3 workloads, TimingSimpleCPU, no L2) is described below as Phase 1.
 
 
-## Overview
+## Overview (Phase 1: L1D-only study)
 
 This project evaluates the effect of L1 data cache (L1D) size and associativity on simulated execution performance across three workloads using gem5.
 
