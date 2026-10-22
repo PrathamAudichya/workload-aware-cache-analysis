@@ -46,11 +46,11 @@ To investigate the hashchain failure, a follow-up experiment varied L2 capacity 
 
 | L2 capacity | L2 associativity | Simulation ticks | IPC | L2 demand miss rate |
 |---:|---:|---:|---:|---:|
-| 256 KiB | 8-way | 30,168,102,500 | 0.224659 | 61.49% |
-| 512 KiB | 8-way | 18,122,446,500 | 0.373986 | 19.62% |
-| 1024 KiB | 8-way | 10,410,146,000 | 0.651052 | 0.93% |
+| 256 KiB | 8-way | 30,168,102,500 | 0.224659 | 61.52% |
+| 512 KiB | 8-way | 18,122,446,500 | 0.373986 | 19.67% |
+| 1024 KiB | 8-way | 10,410,146,000 | 0.651052 | 0.99% |
 
-Increasing L2 capacity from 256 KiB to 1024 KiB reduced simulation ticks by approximately 65.5% and lowered the L2 demand miss rate from 61.49% to 0.93%. These results provide controlled evidence that L2 capacity materially affects hashchain performance under this simulated configuration.
+Increasing L2 capacity from 256 KiB to 1024 KiB reduced simulation ticks by approximately 65.5% and lowered the L2 demand miss rate from 61.52% to 0.99%. These results provide controlled evidence that L2 capacity materially affects hashchain performance under this simulated configuration.
 
 This follow-up experiment does not change the original held-out evaluation or its recommendation pass rate. It investigates the failure mechanism; it does not establish that the current classifier can predict the required capacity. Further evaluation should test whether additional features or a capacity-selection method can generalize to unseen workloads.
 

@@ -16,6 +16,7 @@ p.add_argument("--l1d-mshrs", type=int, default=4)
 p.add_argument("--l2-size", default="0", help="0 = no L2")
 p.add_argument("--l2-assoc", type=int, default=8)
 p.add_argument("--block-size", type=int, default=64)
+p.add_argument("--max-insts", type=int, default=0, help="stop after N committed instructions")
 p.add_argument("--cpu-clock", default="2GHz")
 p.add_argument("--mem-size", default="512MiB")
 p.add_argument("--dram-device-size", default="512MiB")
@@ -80,6 +81,8 @@ process = Process()
 process.cmd = [binary]
 system.cpu.workload = process
 system.cpu.createThreads()
+if args.max_insts:
+    system.cpu.max_insts_any_thread = args.max_insts
 
 root = Root(full_system=False, system=system)
 m5.instantiate()
